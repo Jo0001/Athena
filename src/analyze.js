@@ -21,31 +21,71 @@ export function sites() {
 }
 
 export async function analyze(data) {
+    const types = {viaversion: "viaversion", other_plugin: "other_plugin", platform: "platform", other: "other"}
     let solutions = {
-        missing_addon: "ViaBackwards/ViaRewind is missing. Check https://viaversion.com/setup for more information",
-        broken_config: "Broken config. Please delete the config.yml and restart the server",
-        proxy_limbo: "This error is most likely caused by your proxy software being out of date, or incompatibility with another plugin like limbo, or custom client.",
-        invalid_entity: "You have a plugin sending invalid entity metadata/metadata for an untracked entity.",
-        outdated_proxy: "Make sure your proxy is up to date",
-        missing_public_key: "Missing profile public key see https://gist.github.com/Jo0001/4d14eb4d3ae51b11eb90ba3296c8095b for details ",
-        outdated_api: "A (old) plugin is using the outdated ViaVersion API, the plugin author has to adopt to the new one",
-        missing_viaversion: "Please install ViaVersion, too",
-        corrupt_jar: "You have corrupt a ViaVersion jar. Please redownload it",
-        unsupported_platform_magma: "Magma is not supported. Use Spigot/Paper/Fabric instead",
-        invalid_chunkdata: "A plugin e.g. Orebfuscator sends bad chunk data",
-        port_scan: "Some automatic 'port' scanner is scanning your server. Not ViaVersion related",
-        broken_jar: "You have a broken jar. Redownload it",
-        recipe_error: "[1.13.1 -> 1.13] Recipe Packet remap error, see for https://github.com/ViaVersion/ViaVersion/issues/2383 details ",
-        viarewind_outdated: "Make sure to use the latest ViaRewind Version",
-        bungee_bug: "Bungee issue, make sure you have the latest version of it",
-        json_warn: "Some plugin is sending invalid JSON. Please check your scoreboard/tablist/bossbar/custom entity name plugins and update/remove them",
-        stack: "Please only install Via* plugins on either Bungee OR backend servers (e.g. Spigot / Paper). We recommend backend servers because it will give ViaVersion more information and a better experience",
-        mixed_via: "Make sure ViaVersion and its addons are on the same release, dont mix -dev builds with normal ones",
-        error_unsupported: "We strongly advise against using software to mess with message signing. We will not provide support in case you encounter issues possibly related to this software!",
-        interactivechat: "Update or remove the InteractiveChat plugin",
-        modelengine_warn: "ModelEngine does not work properly with ViaVersion",
-        dump_reupload: "Do not reupload the dump",
-        placeholder: "placeholder"
+        missing_addon: {
+            message: "ViaBackwards/ViaRewind is missing. Check https://viaversion.com/setup for more information",
+            type: types.viaversion
+        },
+        broken_config: {
+            message: "Broken config. Please delete the config.yml and restart the server",
+            type: types.viaversion
+        },
+        proxy_limbo: {
+            message: "This error is most likely caused by your proxy software being out of date, or incompatibility with another plugin like limbo, or custom client.",
+            type: types.platform
+        },
+        invalid_entity: {
+            message: "You have a plugin sending invalid entity metadata/metadata for an untracked entity.",
+            type: types.other_plugin
+        },
+        outdated_proxy: {message: "Make sure your proxy is up to date", type: types.platform},
+        missing_public_key: {
+            message: "Missing profile public key see https://gist.github.com/Jo0001/4d14eb4d3ae51b11eb90ba3296c8095b for details ",
+            type: types.platform
+        },
+        outdated_api: {
+            message: "A (old) plugin is using the outdated ViaVersion API, the plugin author has to adopt to the new one",
+            type: types.other_plugin
+        },
+        missing_viaversion: {message: "Please install ViaVersion, too", type: types.viaversion},
+        corrupt_jar: {message: "You have corrupt a ViaVersion jar. Please redownload it", type: types.viaversion},
+        unsupported_platform_magma: {
+            message: "Magma is not supported. Use Spigot/Paper/Fabric instead",
+            type: types.platform
+        },
+        invalid_chunkdata: {message: "A plugin e.g. Orebfuscator sends bad chunk data", type: types.other_plugin},
+        port_scan: {
+            message: "Some automatic 'port' scanner is scanning your server. Not ViaVersion related",
+            type: types.other
+        },
+        broken_jar: {message: "You have a broken jar. Redownload it", type: types.viaversion},
+        recipe_error: {
+            message: "[1.13.1 -> 1.13] Recipe Packet remap error, see for https://github.com/ViaVersion/ViaVersion/issues/2383 details ",
+            type: types.viaversion
+        },
+        viarewind_outdated: {message: "Make sure to use the latest ViaRewind Version", type: types.viaversion},
+        bungee_bug: {message: "Bungee issue, make sure you have the latest version of it", type: types.platform},
+        json_warn: {
+            message: "Some plugin is sending invalid JSON. Please check your scoreboard/tablist/bossbar/custom entity name plugins and update/remove them",
+            type: types.other_plugin
+        },
+        stack: {
+            message: "Please only install Via* plugins on either Bungee OR backend servers (e.g. Spigot / Paper). We recommend backend servers because it will give ViaVersion more information and a better experience",
+            type: types.viaversion
+        },
+        mixed_via: {
+            message: "Make sure ViaVersion and its addons are on the same release, dont mix -dev builds with normal ones",
+            type: types.viaversion
+        },
+        error_unsupported: {
+            message: "We strongly advise against using software to mess with message signing. We will not provide support in case you encounter issues possibly related to this software!",
+            type: types.other
+        },
+        interactivechat: {message: "Update or remove the InteractiveChat plugin", type: types.other_plugin},
+        modelengine_warn: {message: "ModelEngine does not work properly with ViaVersion", type: types.other_plugin},
+        dump_reupload: {message: "Do not reupload the dump", type: types.other},
+        placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
         string: "[ViaVersion] ViaVersion does not have any compatible versions for this server version",
@@ -148,6 +188,7 @@ export async function analyze(data) {
     for (const error of errors) {
         if (data.indexOf(error.string) !== -1) {
             tags.push(error.solution);
+            solutions[error.solution].tag = error.solution;
             detections.push(solutions[error.solution]);
         }
     }
