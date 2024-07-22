@@ -85,6 +85,11 @@ export async function analyze(data) {
         interactivechat: {message: "Update or remove the InteractiveChat plugin", type: types.other_plugin},
         modelengine_warn: {message: "ModelEngine does not work properly with ViaVersion", type: types.other_plugin},
         dump_reupload: {message: "Do not reupload the dump", type: types.other},
+        tab_update: {message: "Update Tab", type: types.other_plugin},
+        bad_packetevents: {
+            message: "The library 'packetevents' in one of your plugins is doing something dumb, this is not ViaVersions fault! See https://gist.github.com/Jo0001/8b02e2734ef4ae36fba23fb89320a50d for help",
+            type: types.other_plugin
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -180,6 +185,12 @@ export async function analyze(data) {
     }, {
         string: "implementationVersion",
         solution: "dump_reupload"
+    }, {
+        string: "ViaVersion returned unknown protocol version",
+        solution: "tab_update"
+    }, {
+        string: "Unable to grab ViaVersion client version for player!",
+        solution: "bad_packetevents"
     }];
 
 
