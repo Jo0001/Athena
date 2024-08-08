@@ -90,6 +90,10 @@ export async function analyze(data) {
             message: "The library 'packetevents' in one of your plugins is doing something dumb, this is not ViaVersions fault! See https://gist.github.com/Jo0001/8b02e2734ef4ae36fba23fb89320a50d for help",
             type: types.other_plugin
         },
+        old_java: {
+            message: "You need at least java 17 or special java 8  ViaVersion builds (not recommend)",
+            type: types.viaversion
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -191,6 +195,9 @@ export async function analyze(data) {
     }, {
         string: "Unable to grab ViaVersion client version for player!",
         solution: "bad_packetevents"
+    }, {
+        string: "com/viaversion/viaversion/ViaVersionPlugin has been compiled by a more recent version of the Java Runtime",
+        solution: "old_java"
     }];
 
 
@@ -203,7 +210,7 @@ export async function analyze(data) {
             detections.push(solutions[error.solution]);
         }
     }
-    let containsVia = data.includes("com.viaversion.") || data.includes("[ViaVersion]") || data.includes("[ViaBackwards]") || data.includes("[ViaRewind]");
+    let containsVia = data.includes("com.viaversion.") || data.includes("com/viaversion/viaversion/") || data.includes("[ViaVersion]") || data.includes("[ViaBackwards]") || data.includes("[ViaRewind]");
     return new Response(JSON.stringify({containsVia: containsVia, detections: detections, tags: tags}), {
         headers: {
             'content-type': 'application/json;charset=UTF-8',
