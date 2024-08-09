@@ -94,6 +94,10 @@ export async function analyze(data) {
             message: "You need at least java 17 or special java 8  ViaVersion builds (not recommend)",
             type: types.viaversion
         },
+        via_bungee_waterfall: {
+            message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
+            type: types.viaversion
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -198,6 +202,10 @@ export async function analyze(data) {
     }, {
         string: "com/viaversion/viaversion/ViaVersionPlugin has been compiled by a more recent version of the Java Runtime",
         solution: "old_java"
+    }, {
+        string: "Error loading plugin ViaVersion\n" +
+            "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
+        solution: "via_bungee_waterfall"
     }];
 
 
