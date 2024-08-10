@@ -84,6 +84,7 @@ export async function analyze(data) {
         },
         interactivechat: {message: "Update or remove the InteractiveChat plugin", type: types.other_plugin},
         modelengine_warn: {message: "ModelEngine does not work properly with ViaVersion", type: types.other_plugin},
+        mythic_warn: {message: "MythicLib (MMOLib) does not work properly with ViaVersion", type: types.other_plugin},
         dump_reupload: {message: "Do not reupload the dump", type: types.other},
         tab_update: {message: "Update Tab", type: types.other_plugin},
         bad_packetevents: {
@@ -187,6 +188,9 @@ export async function analyze(data) {
     }, {
         string: "com.ticxo.modelengine.",
         solution: "modelengine_warn"
+    }, {
+        string: "io.lumine.mythic.lib",
+        solution: "mythic_warn"
     }, {
         string: "at org.magmaf",
         solution: "unsupported_platform_magma"
