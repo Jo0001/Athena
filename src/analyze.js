@@ -245,10 +245,17 @@ function getAPIUrl(raw) {
             }
             return mappings[host].replace("$id", url.pathname.substring(url.pathname.lastIndexOf('/') + 1));
         }
+        //Handle already raw api Urls
+        if (url.pathname !== "/" && Object.values(mappings).some(function (key) {
+            const u = new URL(key);
+            return u.origin === host
+        })) {
+            return raw;
+        }
     } catch (e) {
         throw {name: "INVALID_URL", detail: raw + " is invalid", code: 422};
     }
-    throw {name: "UNKNOWN_PASTE-SITE", detail: "Don't know how to handle " + host, code: 422}; //todo handle already raw urls
+    throw {name: "UNKNOWN_PASTE-SITE", detail: "Don't know how to handle " + host, code: 422};
 }
 
 export async function getDataFromUrl(url) {
