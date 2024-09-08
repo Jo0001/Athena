@@ -18,6 +18,9 @@ async function handleRequest(request) {
                 } catch (e) {
                     return printError("INVALID_JSON", "Request has not a valid json body", 422);
                 }
+                if (body.url.trim() === "") {
+                    return printError("INVALID_URL", "url is empty", 422);
+                }
                 return await analyze(await getDataFromUrl(body.url));
             }
             if (pathname.startsWith("/v0/analyze/raw")) {
