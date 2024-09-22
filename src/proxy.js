@@ -24,7 +24,8 @@ async function proxyDifferenceRaw(platform, platformString) {
         let veloVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/velocity");
         let veloVersion = veloVersionJSON.versions.at(-1);
         let response = await getProxyBuild(platform, veloVersion);
-        currentBuild = platformString.split("-b")[1].replace(")", "");
+        currentBuild = platformString.split("-b")[1].replace(")", "");//legacy format
+        currentBuild = isNaN(currentBuild) ? platformString.split("-b")[2].replace(")", "") : currentBuild;
         return response.builds[response.builds.length - 1] - currentBuild;
     }
     return -1;
