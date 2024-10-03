@@ -99,6 +99,10 @@ export async function analyze(data) {
             message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
             type: types.viaversion
         },
+        viaversion_outdated: {
+            message: "Please update the ViaVersion plugin to its latest version",
+            type: types.viaversion
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -210,6 +214,9 @@ export async function analyze(data) {
         string: "Error loading plugin ViaVersion\n" +
             "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
         solution: "via_bungee_waterfall"
+    }, {
+        string: "protocols.base.BaseProtocol",
+        solution: "viaversion_outdated"
     }];
 
 
