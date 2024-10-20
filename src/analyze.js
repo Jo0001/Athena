@@ -103,6 +103,14 @@ export async function analyze(data) {
             message: "Please update the ViaVersion plugin to its latest version",
             type: types.viaversion
         },
+        flamecord_warn: {
+            message: "Flamecord is not supported. Either use Velocity/Bungee or install Via on all backend servers",
+            type: types.platform
+        },
+        unsupported_spigotversion: {
+            message: "Use Spigot 1.8.8+ (versions below are not supported)",
+            type: types.platform
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -217,6 +225,13 @@ export async function analyze(data) {
     }, {
         string: "protocols.base.BaseProtocol",
         solution: "viaversion_outdated"
+    }, {
+        string: "[main/INFO]: Enabled FlameCord version",
+        solution: "flamecord_warn"
+    }, {
+        string: "[ViaVersion] ViaVersion failed to get the server protocol!\n" +
+            "java.lang.ClassNotFoundException: net.minecraft.network.protocol.status.ServerPing$ServerData",
+        solution: "unsupported_spigotversion"
     }];
 
 
