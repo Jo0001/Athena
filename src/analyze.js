@@ -232,6 +232,9 @@ export async function analyze(data) {
         string: "[ViaVersion] ViaVersion failed to get the server protocol!\n" +
             "java.lang.ClassNotFoundException: net.minecraft.network.protocol.status.ServerPing$ServerData",
         solution: "unsupported_spigotversion"
+    }, {
+        string: "net.md_5.bungee.util.QuietException: Unexpected packet received during login process!",
+        solution: "bungee_bug"
     }];
 
 
