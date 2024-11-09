@@ -233,7 +233,7 @@ export async function analyze(data) {
             "java.lang.ClassNotFoundException: net.minecraft.network.protocol.status.ServerPing$ServerData",
         solution: "unsupported_spigotversion"
     }, {
-        string: "net.md_5.bungee.util.QuietException: Unexpected packet received during login process!",
+        string: "net.md_5.bungee.util.QuietException: Unexpected packet received during ",
         solution: "bungee_bug"
     }];
 
