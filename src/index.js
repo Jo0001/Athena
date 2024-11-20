@@ -1,48 +1,53 @@
 import {analyze, getDataFromUrl, sites} from "./analyze";
 import {proxyDifference, proxyVersions} from "./proxy";
+import {proxyDifference_exp} from "./proxy-experimental";
 import {printError} from "./util";
 
-addEventListener("fetch", event => {
-    return event.respondWith(handleRequest(event.request).catch(ex => new Response(ex.toString(), {status: 500})))
-})
 
-async function handleRequest(request) {
-    const {pathname, searchParams} = new URL(request.url);
+export default {
+    async fetch(request, env, ctx) {
+        const {pathname, searchParams} = new URL(request.url);
 
-    try {
-        if (request.method === "POST") {
-            if (pathname.startsWith("/v0/analyze/url")) {
-                let body;
-                try {
-                    body = await request.json();
-                } catch (e) {
-                    return printError("INVALID_JSON", "Request has not a valid json body", 422);
+        try {
+            if (request.method === "POST") {
+                if (pathname.startsWith("/v0/analyze/url")) {
+                    let body;
+                    try {
+                        body = await request.json();
+                    } catch (e) {
+                        return printError("INVALID_JSON", "Request has not a valid json body", 422);
+                    }
+                    if (body.url.trim() === "") {
+                        return printError("INVALID_URL", "url is empty", 422);
+                    }
+                    return await analyze(await getDataFromUrl(body.url));
                 }
-                if (body.url.trim() === "") {
-                    return printError("INVALID_URL", "url is empty", 422);
+                if (pathname.startsWith("/v0/analyze/raw")) {
+                    return await analyze(await request.text());
                 }
-                return await analyze(await getDataFromUrl(body.url));
+            } else {
+                if (pathname.startsWith("/v0/analyze/sites")) {
+                    return sites();
+                }
+                if (pathname.startsWith("/v0/proxy/difference")) {
+                    if (request.headers.get("x-athena-exp") === "true") {
+                        console.log("Using experimental proxy difference")
+                        return await proxyDifference_exp(searchParams.get('platform'), searchParams.get('platformstring'))
+                    } else {
+                        return await proxyDifference(searchParams.get('platform'), searchParams.get('platformstring'))
+                    }
+                }
+                if (pathname.startsWith("/v0/proxy/versions")) {
+                    return await proxyVersions();
+                }
             }
-            if (pathname.startsWith("/v0/analyze/raw")) {
-                return await analyze(await request.text());
+            return printError("UNKNOWN_ENDPOINT", "This endpoint does not exist or you use the wrong request method", 400);
+        } catch (e) {
+            if (e.name != null && e.detail != null && e.code != null) {
+                return printError(e.name, e.detail, e.code);
             }
-        } else {
-            if (pathname.startsWith("/v0/analyze/sites")) {
-                return sites();
-            }
-            if (pathname.startsWith("/v0/proxy/difference")) {
-                return await proxyDifference(searchParams.get('platform'), searchParams.get('platformstring'))
-            }
-            if (pathname.startsWith("/v0/proxy/versions")) {
-                return await proxyVersions();
-            }
+            console.error(e);
+            return printError("ERROR", "Ups", 500);
         }
-        return printError("UNKNOWN_ENDPOINT", "This endpoint does not exists or you use the wrong request method", 400)
-    } catch (e) {
-        if (e.name != null && e.detail != null && e.code != null) {
-            return printError(e.name, e.detail, e.code);
-        }
-        console.error(e);
-        return printError("ERROR", "Ups", 500);
-    }
-}
+    },
+};
