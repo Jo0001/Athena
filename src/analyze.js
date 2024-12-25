@@ -35,6 +35,10 @@ export async function analyze(data) {
             message: "This error is most likely caused by your proxy software being out of date, or incompatibility with another plugin like limbo, or custom client.",
             type: types.platform
         },
+        limbo_warn: {
+            message: "Limbo is not supported, move Via* to the backend servers instead.",
+            type: types.other_plugin
+        },
         invalid_entity: {
             message: "You have a plugin sending invalid entity metadata/metadata for an untracked entity.",
             type: types.other_plugin
@@ -75,7 +79,7 @@ export async function analyze(data) {
             type: types.viaversion
         },
         mixed_via: {
-            message: "Make sure ViaVersion and its addons are on the same release, dont mix -dev builds with normal ones",
+            message: "Make sure ViaVersion and its addons are on the same up-to-date release, dont mix -dev builds with normal ones",
             type: types.viaversion
         },
         error_unsupported: {
@@ -235,6 +239,9 @@ export async function analyze(data) {
     }, {
         string: "net.md_5.bungee.util.QuietException: Unexpected packet received during ",
         solution: "bungee_bug"
+    }, {
+        string: " [Netty epoll Worker #1/INFO] [limboapi]:",
+        solution: "limbo_warn"
     }];
 
 
