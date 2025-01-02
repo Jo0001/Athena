@@ -242,6 +242,16 @@ export async function analyze(data) {
     }, {
         string: " [Netty epoll Worker #1/INFO] [limboapi]:",
         solution: "limbo_warn"
+    }, {
+        string: "java.lang.NullPointerException: null\n" +
+            "        at com.viaversion.viaversion.bukkit.providers.BukkitViaMovementTransmitter.sendPlayer",
+        solution: "viaversion_outdated"
+    }, {
+        string: "for ViaVersion v5.2.0 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
+        string: "com.viaversion.viaversion.rewriter.EntityRewriter.handleEntityData",
+        solution: "invalid_entity"
     }];
 
 
@@ -249,6 +259,9 @@ export async function analyze(data) {
     let tags = [];
     for (const error of errors) {
         if (data.indexOf(error.string) !== -1) {
+            if (tags.indexOf(error.solution) !== -1) {//avoid duplicates
+                continue;
+            }
             tags.push(error.solution);
             solutions[error.solution].tag = error.solution;
             detections.push(solutions[error.solution]);
