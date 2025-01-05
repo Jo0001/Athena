@@ -40,7 +40,7 @@ export async function analyze(data) {
             type: types.other_plugin
         },
         invalid_entity: {
-            message: "You have a plugin sending invalid entity metadata/metadata for an untracked entity.",
+            message: "You have a plugin sending invalid entity metadata/metadata for an entity or text display.",
             type: types.other_plugin
         },
         outdated_proxy: {message: "Make sure your proxy is up to date", type: types.platform},
@@ -251,6 +251,9 @@ export async function analyze(data) {
         solution: "viaversion_outdated"
     }, {
         string: "com.viaversion.viaversion.rewriter.EntityRewriter.handleEntityData",
+        solution: "invalid_entity"
+    }, {
+        string: "An error occurred in entity data handler EntityPacketRewriter",
         solution: "invalid_entity"
     }];
 
