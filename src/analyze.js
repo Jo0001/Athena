@@ -243,11 +243,26 @@ export async function analyze(data) {
         string: " [Netty epoll Worker #1/INFO] [limboapi]:",
         solution: "limbo_warn"
     }, {
+        string: "[main/INFO] [limboapi]:",
+        solution: "limbo_warn"
+    }, {
+        string: "[viaversion]: ERROR IN ClientboundBaseProtocol1_7 IN REMAP OF LOGIN_FINISHED (0x02)",
+        solution: "limbo_warn"
+    }, {
+        string: "Packet Type: LOGIN_FINISHED, Index: 1, Type: UUIDType, Data: [], Packet ID: 2, Source 0: com.viaversion",
+        solution: "limbo_warn"
+    }, {
         string: "java.lang.NullPointerException: null\n" +
             "        at com.viaversion.viaversion.bukkit.providers.BukkitViaMovementTransmitter.sendPlayer",
         solution: "viaversion_outdated"
     }, {
         string: "for ViaVersion v5.2.0 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
+        string: "java.lang.NoSuchFieldError: Class com.viaversion.viaversion.api.",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] Error initializing plugin",
         solution: "viaversion_outdated"
     }, {
         string: "com.viaversion.viaversion.rewriter.EntityRewriter.handleEntityData",
