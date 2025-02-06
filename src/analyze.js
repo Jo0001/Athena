@@ -49,7 +49,7 @@ export async function analyze(data) {
             type: types.platform
         },
         outdated_api: {
-            message: "A (old) plugin is using the outdated ViaVersion API, the plugin author has to adopt to the new one",
+            message: "A (very old) plugin is using the outdated ViaVersion API, the plugin author has to adopt to the new one",
             type: types.other_plugin
         },
         missing_viaversion: {message: "Please install ViaVersion, too", type: types.viaversion},
@@ -75,7 +75,7 @@ export async function analyze(data) {
             type: types.other_plugin
         },
         stack: {
-            message: "Please only install Via* plugins on either Bungee OR backend servers (e.g. Spigot / Paper). We recommend backend servers because it will give ViaVersion more information and a better experience",
+            message: "Please only install Via* plugins on either Velocity/Bungee OR backend servers (e.g. Spigot / Paper). We recommend backend servers because it will give ViaVersion more information and a better experience",
             type: types.viaversion
         },
         mixed_via: {
@@ -100,7 +100,8 @@ export async function analyze(data) {
             type: types.viaversion
         },
         via_bungee_waterfall: {
-            message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
+            //message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
+            message: "For Bungee/Waterfall you either need to move Via* to all backend servers or just use Velocity",
             type: types.viaversion
         },
         viaversion_outdated: {
@@ -224,6 +225,13 @@ export async function analyze(data) {
         solution: "old_java"
     }, {
         string: "Error loading plugin ViaVersion\n" +
+            "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
+        solution: "via_bungee_waterfall"
+    }, {
+        string: "java.lang.NoClassDefFoundError: com/viaversion/viaversion/api/platform/ViaServerProxyPlatform",
+        solution: "via_bungee_waterfall"
+    }, {
+        string: "[WARNING] Error loading plugin ViaRewind\n" +
             "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
         solution: "via_bungee_waterfall"
     }, {
