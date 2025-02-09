@@ -4,7 +4,7 @@ import {fetchJSON} from "./util";
  * Detect how many builds a proxy is behind
  * @param platform platform name
  * @param platformString the raw platform string
- * @returns {Promise<number>} number of builds behind, -1 for unknown platform, 999 for whole mc version behind
+ * @returns {Promise<number>} number of builds behind, -1 for unknown platform, 999 for whole mc version behind (waterfall only)
  */
 async function proxyDifferenceRaw(platform, platformString) {
     platform = platform.toLowerCase();
@@ -13,20 +13,19 @@ async function proxyDifferenceRaw(platform, platformString) {
     if (platform === "bungeecord") {
         return (await getProxyBuild(platform)).id - currentBuild;
     } else if (platform === "waterfall") {
-        let waterVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/waterfall");
-        let latestMC = waterVersionJSON.versions.at(-1);
+        let waterVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/waterfall/version_group/1.20/builds");//get build directly
+        let waterVersion = waterVersionJSON.builds.at(-1).build;
+        let latestMC = waterVersionJSON.builds.at(-1).version;
         if (!platformString.includes(latestMC)) {
             return 999;
         }
-        let response = await getProxyBuild(platform, latestMC);
-        return response.builds[response.builds.length - 1] - currentBuild;
+        return waterVersion - currentBuild;
     } else if (platform === "velocity") {
-        let veloVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/velocity");
-        let veloVersion = veloVersionJSON.versions.at(-1);
-        let response = await getProxyBuild(platform, veloVersion);
+        let veloVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/velocity/version_group/3.0.0/builds");//get build directly
+        let veloVersion = veloVersionJSON.builds.at(-1).build;
         currentBuild = platformString.split("-b")[1].replace(")", "");//legacy format
         currentBuild = isNaN(currentBuild) ? platformString.split("-b")[2].replace(")", "") : currentBuild;
-        return response.builds[response.builds.length - 1] - currentBuild;
+        return veloVersion - currentBuild;
     }
     return -1;
 }

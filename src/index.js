@@ -1,6 +1,5 @@
 import {analyze, getDataFromUrl, sites} from "./analyze";
 import {proxyDifference, proxyVersions} from "./proxy";
-import {proxyDifference_exp} from "./proxy-experimental";
 import {printError} from "./util";
 
 
@@ -30,12 +29,7 @@ export default {
                     return sites();
                 }
                 if (pathname.startsWith("/v0/proxy/difference")) {
-                    if (request.headers.get("x-athena-exp") === "true") {
-                        console.log("Using experimental proxy difference")
-                        return await proxyDifference_exp(searchParams.get('platform'), searchParams.get('platformstring'))
-                    } else {
-                        return await proxyDifference(searchParams.get('platform'), searchParams.get('platformstring'))
-                    }
+                    return await proxyDifference(searchParams.get('platform'), searchParams.get('platformstring'))
                 }
                 if (pathname.startsWith("/v0/proxy/versions")) {
                     return await proxyVersions();
