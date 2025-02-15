@@ -293,8 +293,34 @@ export async function analyze(data) {
             detections.push(solutions[error.solution]);
         }
     }
+
+    const bungee = ["net.md_5.bungee.", "[INFORMATION] Enabled BungeeCord version git:", "<-> InitialHandler has connected"];
+    const velocity = ["com.velocitypowered.proxy.", "INFO]: Booting up Velocity", "INFO]: [connected player]"];
+    const paper_spigot = ["io.papermc.paper.", "org.bukkit.plugin.", "This server is running Paper version", ".jar:git-Spigot"];
+    const fabric_forge = ["net.fabricmc.", " net.minecraftforge.", "Forge Mod Loader version"];
+    let platformType = "unknown";
+    let isProxy = false;
+    let isBungee = bungee.some(platformHint => data.includes(platformHint));
+
+    if (paper_spigot.some(platformHint => data.includes(platformHint)) && !isBungee) {
+        platformType = "Paper/Spigot";
+    } else if (velocity.some(platformHint => data.includes(platformHint))) {
+        platformType = "Velocity";
+        isProxy = true;
+    } else if (isBungee) {
+        platformType = "Bungeecord";
+        isProxy = true;
+    } else if (fabric_forge.some(platformHint => data.includes(platformHint))) {
+        platformType = "Fabric/Forge";
+    }
+
     let containsVia = data.includes("com.viaversion.") || data.includes("com/viaversion/viaversion/") || data.includes("[ViaVersion]") || data.includes("[ViaBackwards]") || data.includes("[ViaRewind]");
-    return new Response(JSON.stringify({containsVia: containsVia, detections: detections, tags: tags}), {
+    return new Response(JSON.stringify({
+        containsVia: containsVia,
+        platform: {type: platformType, isProxy: isProxy},
+        detections: detections,
+        tags: tags
+    }), {
         headers: {
             'content-type': 'application/json;charset=UTF-8',
             'Access-Control-Allow-Origin': '*'
