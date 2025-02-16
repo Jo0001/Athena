@@ -96,7 +96,7 @@ export async function analyze(data) {
             type: types.other_plugin
         },
         old_java: {
-            message: "You need at least java 17 or special java 8  ViaVersion builds (not recommend)",
+            message: "You need at least java 17 or special java 8 ViaVersion builds (not recommend)",
             type: types.viaversion
         },
         via_bungee_waterfall: {
