@@ -298,6 +298,7 @@ export async function analyze(data) {
     const velocity = ["com.velocitypowered.proxy.", "INFO]: Booting up Velocity", "INFO]: [connected player]"];
     const paper_spigot = ["io.papermc.paper.", "org.bukkit.plugin.", "This server is running Paper version", ".jar:git-Spigot"];
     const fabric_forge = ["net.fabricmc.", " net.minecraftforge.", "Forge Mod Loader version"];
+    const viaproxy = ["net.raphimc.viaproxy.","(ViaProxy) Initializing ViaProxy"]
     let platformType = "unknown";
     let isProxy = false;
     let isBungee = bungee.some(platformHint => data.includes(platformHint));
@@ -312,6 +313,9 @@ export async function analyze(data) {
         isProxy = true;
     } else if (fabric_forge.some(platformHint => data.includes(platformHint))) {
         platformType = "Fabric/Forge";
+    }else if (viaproxy.some(platformHint => data.includes(platformHint))) {
+        platformType = "ViaProxy";
+        isProxy = true;
     }
 
     let containsVia = data.includes("com.viaversion.") || data.includes("com/viaversion/viaversion/") || data.includes("[ViaVersion]") || data.includes("[ViaBackwards]") || data.includes("[ViaRewind]");
