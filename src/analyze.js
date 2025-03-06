@@ -26,6 +26,9 @@ export async function analyze(data) {
         missing_addon: {
             message: "ViaBackwards/ViaRewind is missing. Check https://viaversion.com/setup for more information",
             type: types.viaversion
+        }, missing_viabackwards: {
+            message: "ViaBackwards is missing. Please install it, too. Check https://viaversion.com/setup for more information",
+            type: types.viaversion
         },
         broken_config: {
             message: "Broken config. Please delete the config.yml and restart the server",
@@ -100,8 +103,8 @@ export async function analyze(data) {
             type: types.viaversion
         },
         via_bungee_waterfall: {
-            //message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
-            message: "For Bungee/Waterfall you either need to move Via* to all backend servers or just use Velocity",
+            message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
+            //message: "For Bungee/Waterfall you either need to move Via* to all backend servers or just use Velocity",
             type: types.viaversion
         },
         viaversion_outdated: {
@@ -145,6 +148,12 @@ export async function analyze(data) {
     }, {
         string: "Unknown/missing dependency plugins: [ViaVersion]",
         solution: "missing_viaversion"
+    }, {
+        string: "org.bukkit.plugin.UnknownDependencyException: ViaVersion",
+        solution: "missing_viaversion"
+    }, {
+        string: "org.bukkit.plugin.UnknownDependencyException: ViaBackwards",
+        solution: "missing_viabackwards"
     }, {
         string: "java.util.NoSuchElementException: com.viaversion.viaversion.protocols.",
         solution: "corrupt_jar"
