@@ -119,7 +119,7 @@ export async function analyze(data) {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
-        viaversion_outdated_temp: {message: "Please update ViaVersion to the latest ci build from https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot", type: types.viaversion},
+        viaversion_outdated_temp: {message: "Please update ViaVersion (&ViaBackwards) to the latest ci build from https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot (and https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot )", type: types.viaversion},
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
