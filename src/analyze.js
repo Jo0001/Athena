@@ -289,7 +289,7 @@ export async function analyze(data) {
         string: "An error occurred in entity data handler EntityPacketRewriter",
         solution: "invalid_entity"
     }, {
-        string: "[ViaVersion] ERROR IN Protocol1_20_5To1_21 IN REMAP OF DISGUISED_CHAT",
+        string: "IN REMAP OF DISGUISED_CHAT",
         solution: "viaversion_outdated_temp"
     }, {
         string: "Please report this on the Via support Discord or open an issue on the relevant GitHub repository\n" +
