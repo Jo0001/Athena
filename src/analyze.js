@@ -119,6 +119,7 @@ export async function analyze(data) {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
+        viaversion_outdated_temp: {message: "Please update ViaVersion to the latest ci build from https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot", type: types.viaversion},
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -287,6 +288,13 @@ export async function analyze(data) {
     }, {
         string: "An error occurred in entity data handler EntityPacketRewriter",
         solution: "invalid_entity"
+    }, {
+        string: "[ViaVersion] ERROR IN Protocol1_20_5To1_21 IN REMAP OF DISGUISED_CHAT",
+        solution: "viaversion_outdated_temp"
+    }, {
+        string: "Please report this on the Via support Discord or open an issue on the relevant GitHub repository\n" +
+            "Packet Type: DISGUISED_CHAT,",
+        solution: "viaversion_outdated_temp"
     }];
 
 
