@@ -119,7 +119,10 @@ export async function analyze(data) {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
-        viaversion_outdated_temp: {message: "Please update ViaVersion (&ViaBackwards) to the latest ci build from https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot (and https://hangar.papermc.io/ViaVersion/ViaVersion/versions?channel=Snapshot )", type: types.viaversion},
+        viaversion_outdated_temp: {
+            message: "Please update ViaVersion (&ViaBackwards) to the latest 5.3.1 release or a newer",
+            type: types.viaversion
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -315,7 +318,7 @@ export async function analyze(data) {
     const velocity = ["com.velocitypowered.proxy.", "INFO]: Booting up Velocity", "INFO]: [connected player]"];
     const paper_spigot = ["io.papermc.paper.", "org.bukkit.plugin.", "This server is running Paper version", ".jar:git-Spigot"];
     const fabric_forge = ["net.fabricmc.", " net.minecraftforge.", "Forge Mod Loader version"];
-    const viaproxy = ["net.raphimc.viaproxy.","(ViaProxy) Initializing ViaProxy"]
+    const viaproxy = ["net.raphimc.viaproxy.", "(ViaProxy) Initializing ViaProxy"]
     let platformType = "unknown";
     let isProxy = false;
     let isBungee = bungee.some(platformHint => data.includes(platformHint));
@@ -330,7 +333,7 @@ export async function analyze(data) {
         isProxy = true;
     } else if (fabric_forge.some(platformHint => data.includes(platformHint))) {
         platformType = "Fabric/Forge";
-    }else if (viaproxy.some(platformHint => data.includes(platformHint))) {
+    } else if (viaproxy.some(platformHint => data.includes(platformHint))) {
         platformType = "ViaProxy";
         isProxy = true;
     }
