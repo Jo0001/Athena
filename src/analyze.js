@@ -156,7 +156,13 @@ export async function analyze(data) {
         string: "org.bukkit.plugin.UnknownDependencyException: ViaVersion",
         solution: "missing_viaversion"
     }, {
+        string: "org.bukkit.plugin.UnknownDependencyException: Unknown/missing dependency plugins: [ViaVersion]",
+        solution: "missing_viaversion"
+    }, {
         string: "org.bukkit.plugin.UnknownDependencyException: ViaBackwards",
+        solution: "missing_viabackwards"
+    }, {
+        string: "org.bukkit.plugin.UnknownDependencyException: Unknown/missing dependency plugins: [ViaBackwards]",
         solution: "missing_viabackwards"
     }, {
         string: "java.util.NoSuchElementException: com.viaversion.viaversion.protocols.",
