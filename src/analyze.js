@@ -82,7 +82,7 @@ export async function analyze(data) {
             type: types.viaversion
         },
         mixed_via: {
-            message: "Make sure ViaVersion and its addons are on the same up-to-date release, dont mix -dev builds with normal ones",
+            message: "Make sure ViaVersion (and ViaBackwards/ViaRewind) are on the same up-to-date release",
             type: types.viaversion
         },
         error_unsupported: {
@@ -99,7 +99,7 @@ export async function analyze(data) {
             type: types.other_plugin
         },
         old_java: {
-            message: "You need at least java 17 or special java 8 ViaVersion builds (not recommend)",
+            message: "You need at least java 17 or special java 8 ViaVersion builds (not recommend), see https://github.com/ViaVersion/ViaVersion/wiki/Java-Requirements",
             type: types.viaversion
         },
         via_bungee_waterfall: {
