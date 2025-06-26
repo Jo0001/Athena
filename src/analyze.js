@@ -103,8 +103,7 @@ export async function analyze(data) {
             type: types.viaversion
         },
         via_bungee_waterfall: {
-            message: "For Bungee/Waterfall you either need ViaBungee or move Via to all backend servers or just use Velocity",
-            //message: "For Bungee/Waterfall you either need to move Via* to all backend servers or just use Velocity",
+            message: "For Bungee/Waterfall you either need to move Via* to all backend servers or just use Velocity",
             type: types.viaversion
         },
         viaversion_outdated: {
@@ -112,17 +111,14 @@ export async function analyze(data) {
             type: types.viaversion
         },
         flamecord_warn: {
-            message: "Flamecord is not supported. Either use Velocity/Bungee or install Via on all backend servers",
+            message: "Flamecord is not supported. Either use Velocity or install Via on all backend servers",
             type: types.platform
         },
         unsupported_spigotversion: {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
-        viaversion_outdated_temp: {
-            message: "Please update ViaVersion (&ViaBackwards) to the latest 5.3.1 release or a newer",
-            type: types.viaversion
-        },
+        librelogin_warn: {message: "LibreLogin is unsupported", type: types.other_plugin},
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -286,6 +282,12 @@ export async function analyze(data) {
         string: "for ViaVersion v5.2.0 generated an exception",
         solution: "viaversion_outdated"
     }, {
+        string: "for ViaVersion v5.3.0 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
+        string: "for ViaVersion v5.3.2 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
         string: "java.lang.NoSuchFieldError: Class com.viaversion.viaversion.api.",
         solution: "viaversion_outdated"
     }, {
@@ -298,12 +300,11 @@ export async function analyze(data) {
         string: "An error occurred in entity data handler EntityPacketRewriter",
         solution: "invalid_entity"
     }, {
-        string: "IN REMAP OF DISGUISED_CHAT",
-        solution: "viaversion_outdated_temp"
+        string: "[viaversion]: ERROR IN ClientboundBaseProtocol1_7 IN REMAP OF LOGIN_FINISHED (0x02)",
+        solution: "librelogin_warn"
     }, {
-        string: "Please report this on the Via support Discord or open an issue on the relevant GitHub repository\n" +
-            "Packet Type: DISGUISED_CHAT,",
-        solution: "viaversion_outdated_temp"
+        string: "INFO] [librelogin]: Loading libraries...",
+        solution: "librelogin_warn"
     }];
 
 
