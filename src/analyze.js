@@ -325,7 +325,8 @@ export async function analyze(data) {
     const velocity = ["com.velocitypowered.proxy.", "INFO]: Booting up Velocity", "INFO]: [connected player]"];
     const paper_spigot = ["io.papermc.paper.", "org.bukkit.plugin.", "This server is running Paper version", ".jar:git-Spigot"];
     const fabric_forge = ["net.fabricmc.", " net.minecraftforge.", "Forge Mod Loader version"];
-    const viaproxy = ["net.raphimc.viaproxy.", "(ViaProxy) Initializing ViaProxy"]
+    const viaproxy = ["net.raphimc.viaproxy.", "(ViaProxy) Initializing ViaProxy"];
+    const client = ["---- Minecraft Network Protocol Error Report ----", "A detailed walkthrough of the error, its code path and all known details is as follows:"];
     let platformType = "unknown";
     let isProxy = false;
     let isBungee = bungee.some(platformHint => data.includes(platformHint));
@@ -338,6 +339,8 @@ export async function analyze(data) {
     } else if (isBungee) {
         platformType = "Bungeecord";
         isProxy = true;
+    } else if (client.some(platformHint => data.includes(platformHint))) {
+        platformType = "Client (vanilla or modded)";
     } else if (fabric_forge.some(platformHint => data.includes(platformHint))) {
         platformType = "Fabric/Forge";
     } else if (viaproxy.some(platformHint => data.includes(platformHint))) {
