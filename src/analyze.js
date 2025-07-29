@@ -246,6 +246,10 @@ export async function analyze(data) {
         string: "java.lang.NoClassDefFoundError: com/viaversion/viaversion/api/platform/ViaServerProxyPlatform",
         solution: "via_bungee_waterfall"
     }, {
+        string: "[WARNING] Error loading plugin ViaBackwards\n" +
+            "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
+        solution: "via_bungee_waterfall"
+    }, {
         string: "[WARNING] Error loading plugin ViaRewind\n" +
             "java.lang.NoClassDefFoundError: org/bukkit/plugin/java/JavaPlugin",
         solution: "via_bungee_waterfall"
