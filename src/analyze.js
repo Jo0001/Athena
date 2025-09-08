@@ -82,7 +82,7 @@ export async function analyze(data) {
             type: types.viaversion
         },
         mixed_via: {
-            message: "Make sure ViaVersion (and ViaBackwards/ViaRewind) are on the same up-to-date release",
+            message: "Make sure ViaVersion (and ViaBackwards/ViaRewind) are on the same up-to-date release/ci build",
             type: types.viaversion
         },
         error_unsupported: {
@@ -119,6 +119,7 @@ export async function analyze(data) {
             type: types.platform
         },
         librelogin_warn: {message: "LibreLogin is unsupported", type: types.other_plugin},
+        geyser: {message: "See https://geysermc.org/wiki/geyser/fixing-unable-to-connect-to-world/", type: types.other},
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -204,6 +205,9 @@ export async function analyze(data) {
         solution: "mixed_via"
     }, {
         string: "java.lang.NoSuchMethodError: 'void com.viaversion",
+        solution: "mixed_via"
+    }, {
+        string: "java.lang.NoClassDefFoundError: com/viaversion/",
         solution: "mixed_via"
     }, {
         string: "[ViaVersion] You are using unsupported software and may encounter unforeseeable issues",
@@ -309,6 +313,12 @@ export async function analyze(data) {
     }, {
         string: "INFO] [librelogin]: Loading libraries...",
         solution: "librelogin_warn"
+    }, {
+        string: "unable to connect to world",
+        solution: "geyser"
+    }, {
+        string: "Unable to connect to world",
+        solution: "geyser"
     }];
 
 
