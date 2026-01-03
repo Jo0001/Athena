@@ -120,6 +120,10 @@ export async function analyze(data) {
         },
         librelogin_warn: {message: "LibreLogin is unsupported", type: types.other_plugin},
         geyser: {message: "See https://geysermc.org/wiki/geyser/fixing-unable-to-connect-to-world/", type: types.other},
+        minehut: {
+            message: "Minehut controls the ViaVersion.jar, which may cause issues, so contact them if you need an update.",
+            type: types.other
+        },
         placeholder: {message: "placeholder", type: types.other}
     };
     let errors = [{
@@ -319,6 +323,21 @@ export async function analyze(data) {
     }, {
         string: "Unable to connect to world",
         solution: "geyser"
+    }, {
+        string: "MinehutCosmetics (",
+        solution: "minehut"
+    }, {
+        string: "MinehutFilter (",
+        solution: "minehut"
+    }, {
+        string: "[MinehutCosmetics] Loading server plugin MinehutCosmetics",
+        solution: "minehut"
+    }, {
+        string: "[MinehutFilter] Loading server plugin MinehutFilter",
+        solution: "minehut"
+    }, {
+        string: "[MinehutFilter] Loading server plugin MinehutFilter",
+        solution: "minehut"
     }];
 
 
