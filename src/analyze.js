@@ -4,8 +4,8 @@ let mappings = {
     "https://mclo.gs": "https://api.mclo.gs/1/raw/$id",
     "https://pastebin.com": "https://pastebin.com/raw/$id",
     // "https://hastebin.com": "https://hastebin.com/raw/$id", they now require tokens
-    "https://paste.md-5.net": "https://paste.md-5.net/raw/$id",
-    "https://paste.gg": "https://api.paste.gg/v1/pastes/$id?full=true",
+    // "https://paste.md-5.net": "https://paste.md-5.net/raw/$id", seems dead
+    // "https://paste.gg": "https://api.paste.gg/v1/pastes/$id?full=true", seems dead
     "https://gist.github.com": "https://gist.githubusercontent.com$id/raw/",
     "https://pastes.dev": "https://api.pastes.dev/$id",
     //"https://cdn.discordapp.com": "https://cdn.discordapp.com$id" Discord doesn't allow traffic from cf workers :/

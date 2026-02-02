@@ -4,28 +4,23 @@ import {fetchJSON} from "./util";
  * Detect how many builds a proxy is behind
  * @param platform platform name
  * @param platformString the raw platform string
- * @returns {Promise<number>} number of builds behind, -1 for unknown platform, 999 for whole mc version behind (waterfall only)
+ * @returns {Promise<number>} number of builds behind, -1 for unknown platform
  */
 async function proxyDifferenceRaw(platform, platformString) {
     platform = platform.toLowerCase();
     let tmp = platformString.split(":");
     let currentBuild = tmp[tmp.length - 1];
     if (platform === "bungeecord") {
-        return (await getProxyBuild(platform)).id - currentBuild;
+        return (await getBungeeBuild(platform)).id - currentBuild;
     } else if (platform === "waterfall") {
-        let waterVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/waterfall/version_group/1.20/builds");//get build directly
-        let waterVersion = waterVersionJSON.builds.at(-1).build;
-        let latestMC = waterVersionJSON.builds.at(-1).version;
-        if (!platformString.includes(latestMC)) {
-            return 999;
-        }
-        return waterVersion - currentBuild;
+        let waterVersionJSON = await fetchJSON("https://fill.papermc.io/v3/projects/waterfall/versions/1.21/builds/latest");//get build directly
+        return waterVersionJSON.id - currentBuild;
     } else if (platform === "velocity") {
-        let veloVersionJSON = await fetchJSON("https://api.papermc.io/v2/projects/velocity/version_group/3.0.0/builds");//get build directly
-        let veloVersion = veloVersionJSON.builds.at(-1).build;
+        let veloVersion = platformString.split(" ");
+        let veloBuild = (await fetchJSON("https://fill.papermc.io/v3/projects/velocity/versions/" + veloVersion[0] + "/builds/latest")).id;
         currentBuild = platformString.split("-b")[1].replace(")", "");//legacy format
         currentBuild = isNaN(currentBuild) ? platformString.split("-b")[2].replace(")", "") : currentBuild;
-        return veloVersion - currentBuild;
+        return veloBuild - currentBuild;
     }
     return -1;
 }
@@ -39,15 +34,17 @@ export async function proxyDifference(platform, platformString) {
 }
 
 export async function proxyVersions() {
-    let bungee = await getProxyBuild("bungeecord");
-    let waterVersionJSON = (await fetchJSON("https://api.papermc.io/v2/projects/waterfall")).versions.at(-1);
-    let waterfall = await getProxyBuild("waterfall", waterVersionJSON);
-    let veloVersionJSON = (await fetchJSON("https://api.papermc.io/v2/projects/velocity")).versions.at(-1);
-    let velocity = await getProxyBuild("velocity", veloVersionJSON);
+    let bungee = await getBungeeBuild("bungeecord");
+    let waterVersionJSON = (await fetchJSON("https://fill.papermc.io/v3/projects/waterfall/versions")).versions[0];
+    let veloVersionJSON = (await fetchJSON("https://fill.papermc.io/v3/projects/velocity/versions")).versions;//todo
     let data = {
         "bungeecord": {"build": bungee.id},
-        "waterfall": {"build": waterfall.builds.at(-1), "version": waterfall.version},
-        "velocity": {"build": velocity.builds.at(-1), "version": velocity.version},
+        "waterfall": {"build": waterVersionJSON.builds.at(-1), "version": waterVersionJSON.version.id},
+        "velocity": [{
+            "build": veloVersionJSON[0].builds.at(-1),
+            "version": veloVersionJSON[0].version.id
+        }, {"build": veloVersionJSON[1].builds.at(-1), "version": veloVersionJSON[1].version.id},
+            {"build": veloVersionJSON[2].builds.at(-1), "version": veloVersionJSON[2].version.id}],
 
     }
     return new Response(JSON.stringify(data), {
@@ -59,10 +56,6 @@ export async function proxyVersions() {
 
 }
 
-async function getProxyBuild(proxy, version) {
-    if (proxy === "bungeecord") {
-        return await fetchJSON("https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/api/json?tree=id");
-    } else {
-        return await fetchJSON("https://api.papermc.io/v2/projects/" + proxy + "/versions/" + version);
-    }
+async function getBungeeBuild() {
+    return await fetchJSON("https://hub.spigotmc.org/jenkins/job/BungeeCord/lastSuccessfulBuild/api/json?tree=id");
 }
