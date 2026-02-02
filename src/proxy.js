@@ -36,7 +36,7 @@ export async function proxyDifference(platform, platformString) {
 export async function proxyVersions() {
     let bungee = await getBungeeBuild("bungeecord");
     let waterVersionJSON = (await fetchJSON("https://fill.papermc.io/v3/projects/waterfall/versions")).versions[0];
-    let veloVersionJSON = (await fetchJSON("https://fill.papermc.io/v3/projects/velocity/versions")).versions;//todo
+    let veloVersionJSON = (await fetchJSON("https://fill.papermc.io/v3/projects/velocity/versions")).versions;
     let data = {
         "bungeecord": {"build": bungee.id},
         "waterfall": {"build": waterVersionJSON.builds.at(-1), "version": waterVersionJSON.version.id},
