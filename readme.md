@@ -20,4 +20,6 @@ For the development you need [Wrangler](https://developers.cloudflare.com/worker
 
 To start you local dev server just go to the terminal tab of your IDE and type `npx wrangler dev`
 
+To update Wrangler run `npm i -D wrangler@latest`
+
 Full commandlist https://developers.cloudflare.com/workers/wrangler/commands/
