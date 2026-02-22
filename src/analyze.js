@@ -118,7 +118,7 @@ export async function analyze(data) {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
-        librelogin_warn: {message: "LibreLogin is unsupported", type: types.other_plugin},
+        librelogin_warn: {message: "LibreLogin is unsupported. Move ViaVersion to the backend servers or remove librelogin.", type: types.other_plugin},
         geyser: {message: "See https://geysermc.org/wiki/geyser/fixing-unable-to-connect-to-world/", type: types.other},
         minehut: {
             message: "Minehut controls the ViaVersion.jar, which may cause issues, so contact them if you need an update.",
@@ -315,7 +315,16 @@ export async function analyze(data) {
         string: "[viaversion]: ERROR IN ClientboundBaseProtocol1_7 IN REMAP OF LOGIN_FINISHED (0x02)",
         solution: "librelogin_warn"
     }, {
-        string: "INFO] [librelogin]: Loading libraries...",
+        string: "exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler",
+        solution: "librelogin_warn"
+    }, {
+        string: "INFO] [librelogin]:",
+        solution: "librelogin_warn"
+    }, {
+        string: "Loaded plugin librelogin",
+        solution: "librelogin_warn"
+    }, {
+        string: "xyz.kyngs.librelogin.",
         solution: "librelogin_warn"
     }, {
         string: "unable to connect to world",
