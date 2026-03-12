@@ -17,6 +17,10 @@ async function proxyDifferenceRaw(platform, platformString) {
         return waterVersionJSON.id - currentBuild;
     } else if (platform === "velocity") {
         let veloVersion = platformString.split(" ");
+        if (veloVersion[0] === "3.3.0-SNAPSHOT") {
+            //outdated/unsupported
+            return 999;
+        }
         let veloBuild = (await fetchJSON("https://fill.papermc.io/v3/projects/velocity/versions/" + veloVersion[0] + "/builds/latest")).id;
         currentBuild = platformString.split("-b")[1].replace(")", "");//legacy format
         currentBuild = isNaN(currentBuild) ? platformString.split("-b")[2].replace(")", "") : currentBuild;
