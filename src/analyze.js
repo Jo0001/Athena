@@ -118,7 +118,10 @@ export async function analyze(data) {
             message: "Use Spigot 1.8.8+ (versions below are not supported)",
             type: types.platform
         },
-        librelogin_warn: {message: "LibreLogin is unsupported. Move ViaVersion to the backend servers or remove librelogin.", type: types.other_plugin},
+        librelogin_warn: {
+            message: "LibreLogin is unsupported. Move ViaVersion to the backend servers or remove librelogin.",
+            type: types.other_plugin
+        },
         geyser: {message: "See https://geysermc.org/wiki/geyser/fixing-unable-to-connect-to-world/", type: types.other},
         minehut: {
             message: "Minehut controls the ViaVersion.jar, which may cause issues, so contact them if you need an update.",
@@ -287,17 +290,26 @@ export async function analyze(data) {
         string: "Packet Type: LOGIN_FINISHED, Index: 1, Type: UUIDType, Data: [], Packet ID: 2, Source 0: com.viaversion",
         solution: "limbo_warn"
     }, {
+        string: "ERROR IN ClientboundBaseProtocol1_16 IN REMAP OF LOGIN_FINISHED (0x02)",
+        solution: "limbo_warn"
+    }, {
         string: "java.lang.NullPointerException: null\n" +
             "        at com.viaversion.viaversion.bukkit.providers.BukkitViaMovementTransmitter.sendPlayer",
         solution: "viaversion_outdated"
     }, {
-        string: "for ViaVersion v5.2.0 generated an exception",
+        string: "for ViaVersion v5.7.1 generated an exception",
         solution: "viaversion_outdated"
     }, {
-        string: "for ViaVersion v5.3.0 generated an exception",
+        string: "for ViaVersion v5.7.2 generated an exception",
         solution: "viaversion_outdated"
     }, {
-        string: "for ViaVersion v5.3.2 generated an exception",
+        string: "for ViaVersion v5.8.0 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
+        string: "for ViaVersion v5.8.1 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
+        string: "for ViaVersion v5.9.0 generated an exception",
         solution: "viaversion_outdated"
     }, {
         string: "java.lang.NoSuchFieldError: Class com.viaversion.viaversion.api.",
