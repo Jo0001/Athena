@@ -126,6 +126,9 @@ export async function analyze(data) {
         minehut: {
             message: "Minehut controls the ViaVersion.jar, which may cause issues, so contact them if you need an update.",
             type: types.other
+        }, packetevents_outdated: {
+            message: "This might be caused by an outdated version of the plugin 'packetevents'",
+            type: types.other_plugin
         },
         placeholder: {message: "placeholder", type: types.other}
     };
@@ -312,6 +315,9 @@ export async function analyze(data) {
         string: "for ViaVersion v5.9.0 generated an exception",
         solution: "viaversion_outdated"
     }, {
+        string: "for ViaVersion v5.9.1 generated an exception",
+        solution: "viaversion_outdated"
+    }, {
         string: "java.lang.NoSuchFieldError: Class com.viaversion.viaversion.api.",
         solution: "viaversion_outdated"
     }, {
@@ -359,6 +365,9 @@ export async function analyze(data) {
     }, {
         string: "[MinehutFilter] Loading server plugin MinehutFilter",
         solution: "minehut"
+    }, {
+        string: "failed to decode packet clientbound/minecraft:login_finished ",
+        solution: "packetevents_outdated"
     }];
 
 
