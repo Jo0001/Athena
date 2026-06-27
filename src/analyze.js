@@ -366,7 +366,7 @@ export async function analyze(data) {
         string: "[MinehutFilter] Loading server plugin MinehutFilter",
         solution: "minehut"
     }, {
-        string: "failed to decode packet clientbound/minecraft:login_finished ",
+        string: "Failed to decode packet 'clientbound/minecraft:login_finished'",
         solution: "packetevents_outdated"
     }];
 
