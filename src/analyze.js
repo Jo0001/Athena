@@ -110,6 +110,10 @@ export async function analyze(data) {
             message: "Please update the ViaVersion (and ViaBackwards/ViaRewind) plugin to its latest version",
             type: types.viaversion
         },
+        viabackwards_outdated: {
+            message: "Please update the ViaBackwards plugin to its latest version",
+            type: types.viaversion
+        },
         flamecord_warn: {
             message: "Flamecord is not supported. Either use Velocity or install Via on all backend servers",
             type: types.platform
@@ -318,11 +322,41 @@ export async function analyze(data) {
         string: "for ViaVersion v5.9.1 generated an exception",
         solution: "viaversion_outdated"
     }, {
+        string: "[ViaVersion] ViaVersion 5.8.1 is now loaded.",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] ViaVersion 5.9.0 is now loaded.",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] ViaVersion 5.9.1 is now loaded.",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] Loading server plugin ViaVersion v5.10.0-SNAPSHOT",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] Loading server plugin ViaVersion v5.8.1",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] Loading server plugin ViaVersion v5.9.0",
+        solution: "viaversion_outdated"
+    }, {
+        string: "[ViaVersion] Loading server plugin ViaVersion v5.9.1",
+        solution: "viaversion_outdated"
+    }, {
         string: "java.lang.NoSuchFieldError: Class com.viaversion.viaversion.api.",
         solution: "viaversion_outdated"
     }, {
         string: "[ViaVersion] Error initializing plugin",
         solution: "viaversion_outdated"
+    }, {
+        string: "at ViaBackwards-5.8.1.jar//",
+        solution: "viabackwards_outdated"
+    }, {
+        string: "at ViaBackwards-5.9.0.jar//",
+        solution: "viabackwards_outdated"
+    }, {
+        string: "at ViaBackwards-5.9.1.jar//",
+        solution: "viabackwards_outdated"
     }, {
         string: "com.viaversion.viaversion.rewriter.EntityRewriter.handleEntityData",
         solution: "invalid_entity"
