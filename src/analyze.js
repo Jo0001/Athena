@@ -203,6 +203,10 @@ export async function analyze(data) {
         string: "de.gerrygames.viarewind.",
         solution: "viarewind_outdated"
     }, {
+        string: " [ViaVersion] Error during loading of Protocol1_9To1_8\n" +
+            "java.util.concurrent.CompletionException: java.lang.IllegalArgumentException: Invalid version: 1",
+        solution: "viarewind_outdated"
+    }, {
         string: "Non [a-z0-9_.-] character in namespace of location:",
         solution: "bungee_bug"
     }, {
