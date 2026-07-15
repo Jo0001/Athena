@@ -1,6 +1,6 @@
 {
   "devDependencies": {
     "jest": "^29.5.0",
-    "wrangler": "^4.66.0"
+    "wrangler": "^4.111.0"
   }
 }
