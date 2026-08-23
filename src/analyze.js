@@ -406,6 +406,10 @@ export async function analyze(data) {
     }, {
         string: "Failed to decode packet 'clientbound/minecraft:login_finished'",
         solution: "packetevents_outdated"
+    }, {
+        string: "[ViaVersion] Error during loading of Protocol1_16To1_15_2\n" +
+            "java.util.concurrent.CompletionException: java.lang.IllegalArgumentException: Invalid version: 1",
+        solution: "viaversion_outdated"
     }];
 
 
