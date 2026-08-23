@@ -18,7 +18,7 @@ New detections are very welcome - either add them directly per PR or just open a
 ## Development
 For the development you need [Wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
 
-To start you local dev server just go to the terminal tab of your IDE and type `npx wrangler dev`
+To start you local dev server just go to the terminal tab of your IDE and type `npx wrangler dev --env dev`
 
 To update Wrangler run `npm i -D wrangler@latest`
 

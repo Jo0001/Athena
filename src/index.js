@@ -19,10 +19,10 @@ export default {
                     if (body.url.trim() === "") {
                         return printError("INVALID_URL", "url is empty", 422);
                     }
-                    return await analyze(await getDataFromUrl(body.url));
+                    return await analyze(await getDataFromUrl(body.url), env);
                 }
                 if (pathname.startsWith("/v0/analyze/raw")) {
-                    return await analyze(await request.text());
+                    return await analyze(await request.text(), env);
                 }
             } else {
                 if (pathname.startsWith("/v0/analyze/sites")) {

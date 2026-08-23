@@ -17,3 +17,9 @@ enabled = false
 persist = true
 head_sampling_rate = 1
 
+#only for local dev
+[env.dev.vars]
+viaversion = "5.11.0"
+viabackwards = "5.11.0"
+viarewind = "4.1.3"
+viafabricplus = "4.6.3"

@@ -20,7 +20,7 @@ export function sites() {
     });
 }
 
-export async function analyze(data) {
+export async function analyze(data, env) {
     const types = {viaversion: "viaversion", other_plugin: "other_plugin", platform: "platform", other: "other"}
     let solutions = {
         missing_addon: {
@@ -72,6 +72,7 @@ export async function analyze(data) {
             type: types.viaversion
         },
         viarewind_outdated: {message: "Make sure to use the latest ViaRewind Version", type: types.viaversion},
+        viafabricplus_outdated: {message: "Make sure to use the latest ViaFabricPlus Version", type: types.viaversion},
         bungee_bug: {message: "Bungee issue, make sure you have the latest version of it", type: types.platform},
         json_warn: {
             message: "Some plugin is sending invalid JSON. Please check your scoreboard/tablist/bossbar/custom entity name plugins and update/remove them",
@@ -353,15 +354,6 @@ export async function analyze(data) {
         string: "[ViaVersion] Error initializing plugin",
         solution: "viaversion_outdated"
     }, {
-        string: "at ViaBackwards-5.8.1.jar//",
-        solution: "viabackwards_outdated"
-    }, {
-        string: "at ViaBackwards-5.9.0.jar//",
-        solution: "viabackwards_outdated"
-    }, {
-        string: "at ViaBackwards-5.9.1.jar//",
-        solution: "viabackwards_outdated"
-    }, {
         string: "com.viaversion.viaversion.rewriter.EntityRewriter.handleEntityData",
         solution: "invalid_entity"
     }, {
@@ -409,7 +401,7 @@ export async function analyze(data) {
     }, {
         string: "[ViaVersion] Error during loading of Protocol1_16To1_15_2\n" +
             "java.util.concurrent.CompletionException: java.lang.IllegalArgumentException: Invalid version: 1",
-        solution: "viaversion_outdated"
+        solution: "mixed_via"
     }];
 
 
@@ -452,6 +444,43 @@ export async function analyze(data) {
         platformType = "ViaProxy";
         isProxy = true;
     }
+
+    const LATEST_VERSION = {
+        ViaVersion: new Version(env.viaversion),
+        ViaBackwards: new Version(env.viabackwards),
+        ViaRewind: new Version(env.viarewind),
+        ViaFabricPlus: new Version(env.viafabricplus)
+    };
+
+    function checkVersion(plugin, pattern, text) {
+        const regex = new RegExp(plugin + pattern);
+        const match = text.match(regex);
+        console.info(match)
+
+        if (match) {
+            if (new Version(match[1]).compareTo(LATEST_VERSION[plugin]) === -1) {
+                const solution = plugin.toLowerCase() + "_outdated";
+                if (tags.indexOf(solution) !== -1) {//avoid duplicates
+                    return;
+                }
+                tags.push(solution);
+                solutions[solution].tag = solution;
+                detections.push(solutions[solution]);
+            }
+        }
+    }
+
+    //Detect it based on the jar e.g. ViaXX-X.Y.Z.jar
+    checkVersion("ViaVersion", "-(\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)", data);
+    checkVersion("ViaBackwards", "-(\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)", data);
+    checkVersion("ViaRewind", "-(\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)", data);
+    checkVersion("ViaFabricPlus", "-(\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)", data);
+
+    //Detect it based on the /version output e.g. ViaXX (X.Y.Z)
+    checkVersion("ViaVersion", " \\((\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)\\)", data);
+    checkVersion("ViaBackwards", " \\((\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)\\)", data);
+    checkVersion("ViaRewind", " \\((\\d+\\.\\d+\\.\\d+(?:-SNAPSHOT)?)\\)", data);
+
 
     let containsVia = data.includes("com.viaversion.") || data.includes("com/viaversion/viaversion/") || data.includes("[ViaVersion]") || data.includes("[ViaBackwards]") || data.includes("[ViaRewind]");
     return new Response(JSON.stringify({
@@ -506,3 +535,57 @@ export async function getDataFromUrl(url) {
     }
     return data
 }
+
+class Version {
+    constructor(version) {
+        const index = version.indexOf('-');
+        const numericVersion = index === -1
+            ? version
+            : version.substring(0, index);
+
+        const split = numericVersion.split('.');
+        this.parts = split.map(part => parseInt(part, 10));
+
+        this.version = version;
+        this.tag = index !== -1
+            ? version.substring(index + 1)
+            : '';
+    }
+
+    /**
+     * Compare two versions.
+     *
+     * @param {Version} version Version to compare to
+     * @returns {number} 0 if they are the same, 1 if this instance is newer, -1 if older
+     */
+    compareTo(version) {
+        if (version == null || version.toString() == null) {
+            return 0;
+        }
+
+        const max = Math.max(this.parts.length, version.parts.length);
+
+        for (let i = 0; i < max; i++) {
+            const partA = i < this.parts.length ? this.parts[i] : 0;
+            const partB = i < version.parts.length ? version.parts[i] : 0;
+
+            if (partA < partB) return -1;
+            if (partA > partB) return 1;
+        }
+
+        if (this.tag === '' && version.tag !== '') {
+            return 1;
+        }
+
+        if (this.tag !== '' && version.tag === '') {
+            return -1;
+        }
+
+        return 0;
+    }
+
+    toString() {
+        return this.version;
+    }
+}
+
