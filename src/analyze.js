@@ -8,7 +8,7 @@ let mappings = {
     // "https://paste.gg": "https://api.paste.gg/v1/pastes/$id?full=true", seems dead
     "https://gist.github.com": "https://gist.githubusercontent.com$id/raw/",
     "https://pastes.dev": "https://api.pastes.dev/$id",
-    //"https://cdn.discordapp.com": "https://cdn.discordapp.com$id" Discord doesn't allow traffic from cf workers :/
+    "https://cdn.discordapp.com": "https://cdn.discordapp.com$id"
 };
 
 export function sites() {
@@ -505,8 +505,11 @@ function getAPIUrl(raw) {
 
         host = url.origin;
         if (url.pathname !== "/" && mappings.hasOwnProperty(host)) {
-            if (host.includes("github") || host.includes("discordapp")) {
+            if (host.includes("github")) {
                 return mappings[host].replace("$id", url.pathname);
+            }
+            if( host.includes("discordapp")){
+                return url.href;
             }
             return mappings[host].replace("$id", url.pathname.substring(url.pathname.lastIndexOf('/') + 1));
         }
