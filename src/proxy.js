@@ -44,12 +44,10 @@ export async function proxyVersions() {
     let data = {
         "bungeecord": {"build": bungee.id},
         "waterfall": {"build": waterVersionJSON.builds.at(-1), "version": waterVersionJSON.version.id},
-        "velocity": [{
-            "build": veloVersionJSON[0].builds.at(-1),
-            "version": veloVersionJSON[0].version.id
-        }, {"build": veloVersionJSON[1].builds.at(-1), "version": veloVersionJSON[1].version.id},
-            {"build": veloVersionJSON[2].builds.at(-1), "version": veloVersionJSON[2].version.id}],
-
+        "velocity": veloVersionJSON.filter(e => e.version.support.status === "SUPPORTED").map(e => ({
+            version: e.version.id,
+            build: e.builds.at(-1)
+        })),
     }
     return new Response(JSON.stringify(data), {
         headers: {
