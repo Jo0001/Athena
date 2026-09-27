@@ -1,4 +1,5 @@
 import {analyze, getDataFromUrl, sites} from "./analyze";
+import {check} from "./plugincheck";
 import {proxyDifference, proxyVersions} from "./proxy";
 import {printError} from "./util";
 
@@ -23,6 +24,21 @@ export default {
                 }
                 if (pathname.startsWith("/v0/analyze/raw")) {
                     return await analyze(await request.text(), env);
+                }
+                if (pathname.startsWith("/v0/plugincheck/url")) {
+                    let body;
+                    try {
+                        body = await request.json();
+                    } catch (e) {
+                        return printError("INVALID_JSON", "Request has not a valid json body", 422);
+                    }
+                    if (body.url.trim() === "") {
+                        return printError("INVALID_URL", "url is empty", 422);
+                    }
+                    return await check(await getDataFromUrl(body.url), env);
+                }
+                if (pathname.startsWith("/v0/plugincheck/raw")) {
+                    return await check(await request.text(), env);
                 }
             } else {
                 if (pathname.startsWith("/v0/analyze/sites")) {

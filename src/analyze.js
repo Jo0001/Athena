@@ -8,7 +8,8 @@ let mappings = {
     // "https://paste.gg": "https://api.paste.gg/v1/pastes/$id?full=true", seems dead
     "https://gist.github.com": "https://gist.githubusercontent.com$id/raw/",
     "https://pastes.dev": "https://api.pastes.dev/$id",
-    "https://cdn.discordapp.com": "https://cdn.discordapp.com$id"
+    "https://cdn.discordapp.com": "https://cdn.discordapp.com$id",
+    "https://dump.viaversion.com": "https://dump.viaversion.com/raw/$id"
 };
 
 export function sites() {

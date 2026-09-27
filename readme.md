@@ -6,10 +6,11 @@ Log Analysis and more for the ViaVersion project
 - Analyze raw logs directly send per POST request
 - Analyze logs from [supported sites](https://athena.viaversion.workers.dev/v0/analyze/sites)
 - Checks the proxy up2date state (Velocity, Waterfall & BungeeCord)
+- Check your plugins against a list of known to cause issues & unsupported plugins
 
 ## API Dokumentation
 
-See development and prod https://www.postman.com/jo0001-team/workspace/viaversion/api/70fb5b15-3f24-4c8c-b633-2d64ac705960
+See development and prod https://www.postman.com/jo0001-team/viaversion/
 
 ## Contribution
 
