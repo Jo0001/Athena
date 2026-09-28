@@ -37,7 +37,7 @@ const unsupported = [{
     detections: ["xyz.kyngs.librelogin.", "INFO] [librelogin]:", "Loaded plugin librelogin"]
 }];
 
-export function _check(data, env) {
+export function _check(data) {
     const detectedWarnings = warning.filter(plugin =>
         plugin.detections.some(detection => data.includes(detection))
     ).map(({name, message}) => ({name, message}));
@@ -49,7 +49,7 @@ export function _check(data, env) {
 }
 
 export function check(data, env) {
-    return new Response(JSON.stringify(_check(data,env)), {
+    return new Response(JSON.stringify(_check(data)), {
         headers: {
             'content-type': 'application/json;charset=UTF-8',
             'Access-Control-Allow-Origin': '*'

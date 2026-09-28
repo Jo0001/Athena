@@ -1,4 +1,5 @@
 import {fetchJSON, fetchRaw} from "./util";
+import {_check} from "./plugincheck";
 
 let mappings = {
     "https://mclo.gs": "https://api.mclo.gs/1/raw/$id",
@@ -419,6 +420,18 @@ export async function analyze(data, env) {
         }
     }
 
+    let checkData = _check(data);
+    checkData.detectedWarnings.filter(e => !tags.some(tag => tag.startsWith(e.name.toLowerCase()))).forEach(e => {
+        const tag = e.name.toLowerCase() + "_warning";
+        tags.push(tag);
+        detections.push({message: e.message, type: "other_plugin", tag: tag})
+    });
+    checkData.detectedUnsupported.filter(e => !tags.some(tag => tag.startsWith(e.name.toLowerCase()))).forEach(e => {
+        const tag = e.name.toLowerCase() + "_unsupported";
+        tags.push(tag);
+        detections.push({message: e.message, type: "other_plugin", tag: tag})
+    });
+
     const bungee = ["net.md_5.bungee.", "[INFORMATION] Enabled BungeeCord version git:", "<-> InitialHandler has connected"];
     const velocity = ["com.velocitypowered.proxy.", "INFO]: Booting up Velocity", "INFO]: [connected player]"];
     const paper_spigot = ["io.papermc.paper.", "org.bukkit.plugin.", "This server is running Paper version", ".jar:git-Spigot"];
@@ -456,7 +469,6 @@ export async function analyze(data, env) {
     function checkVersion(plugin, pattern, text) {
         const regex = new RegExp(plugin + pattern);
         const match = text.match(regex);
-        console.info(match)
 
         if (match) {
             if (new Version(match[1]).compareTo(LATEST_VERSION[plugin]) === -1) {
@@ -509,7 +521,7 @@ function getAPIUrl(raw) {
             if (host.includes("github")) {
                 return mappings[host].replace("$id", url.pathname);
             }
-            if( host.includes("discordapp")){
+            if (host.includes("discordapp")) {
                 return url.href;
             }
             return mappings[host].replace("$id", url.pathname.substring(url.pathname.lastIndexOf('/') + 1));
